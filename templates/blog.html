@@ -2,5 +2,24 @@
 {%block title%}Blogs{%endblock%}
 
 {%block content%}
-<h2>Explore Blogs</h2>
+<center><h2 style="padding-top: 1.5em;">Explore Blogs</h2></center>
+
+
+<div style="width: 80%; margin: auto;">
+    <div class="blog-selection">
+        <div class="blog-row">
+        {% for blog in blogs %}
+            <div class="blog-small" >
+                <a href="/blogs/{{blog[0]}}" style="color: white; text-decoration: none;">
+                    <h4>{{ blog[2] }}</h4>
+                    <p>{{ blog[3] }}</p>
+                </a>
+            </div>
+
+            {% if loop.index % 3 == 0 %}
+                </div><div class="blog-row">
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

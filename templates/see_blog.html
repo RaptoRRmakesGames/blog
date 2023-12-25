@@ -1,0 +1,12 @@
+{% extends 'base_files/base.html' %}
+{%block title%}See Blog{%endblock%}
+
+{%block content%}
+<center><h2 style="padding-top: 1.5em; text-transform: capitalize;">By {{user[1]}}</h2></center>
+
+<div class="blog">
+    <h3>{{blog[2]}}</h3>
+    <p>{{blog[3]}}</p>
+</div>
+
+{% endblock %}

@@ -63,6 +63,40 @@ def add_user(username, password):
     c.execute("INSERT INTO `users` (username, password) VALUES (%s,%s)", [username,password])
     db.commit()
 
+def get_blog(id):
+    db,c = connect()
+    c.execute("SELECT * FROM `blogs` WHERE id=%s", [id])
+    try:
+        item = c.fetchall()[0]
+        return item
+    except Exception as e:
+        print(e)
+        return False
+    
+def create_spam_blogs(n):
+    for i in range(n):
+        add_blog(1, f"another blog ${i}", "big text about details yeahyeah wow cool stuff bro!")
+        print(f"created blog ${i}")
+    
+def get_user(id):
+    db,c = connect()
+    c.execute("SELECT * FROM `users` WHERE id=%s", [id])
+    try:
+        item = c.fetchall()[0]
+        return item
+    except Exception as e:
+        print(e)
+        return False
+
+def get_all_blogs():
+    db, c = connect()
+    c.execute("SELECT * FROM `blogs`")
+    return c.fetchall()
+
+def clear_blogs():
+    db,c = connect()
+    c.execute("TRUNCATE TABLE `blogs`;")
+
 if __name__ == '__main__':
     try:
         connect()
@@ -70,7 +104,7 @@ if __name__ == '__main__':
     except Exception as e:
         print(e)
 
-    e = input("what do you want to do?\n'check') checks connection \n'add') adds a record\n'create') creates the database\n'login') pseudo logins\n")
+    e = input("what do you want to do?\n'check') checks connection \n'add') adds a record\n'create') creates the database\n'login') pseudo logins\n'spam') Creates spam blogs\n'clear') Clears all blogs\n")
 
     match e:
         case 'check':
@@ -97,3 +131,9 @@ if __name__ == '__main__':
             
         case 'login':
             print(login(input("username: "), input("password: ")))
+
+        case 'spam':
+            create_spam_blogs(int(input("How many spam blogs to create?: ")))
+
+        case 'clear':
+            clear_blogs()
