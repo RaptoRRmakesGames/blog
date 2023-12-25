@@ -1,3 +1,10 @@
-<nav>
-    <h1>navbar</h1>
-</nav>
+<header>
+    <nav>
+        <ul>
+            
+            <li><a href="/" {% if page == "home" %} class="active" {% else %} class="" {%endif%}>Featured</a></li>
+            <li><a href="/blogs" {% if page == "blog" %} class="active" {% else %} class="" {%endif%}>Blogs</a></li>
+            <li><a href="/write" {% if page == "write" %} class="active" {% else %} class="" {%endif%}>Write</a></li>
+        </ul>
+    </nav>
+</header>
