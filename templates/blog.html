@@ -4,6 +4,7 @@
 {%block content%}
 <center><h2 style="padding-top: 1.5em;">Explore Blogs</h2></center>
 
+{% if blogs %}
 
 <div style="width: 80%; margin: auto;">
     <div class="blog-selection">
@@ -22,4 +23,8 @@
         {% endfor %}
     </div>
 </div>
+{% else %}
+<center><h1>seems like theres no blogs yet...</h1><a style="font-size: xx-large;" href="/write">Write one</a></center>
+
+{% endif %}
 {% endblock %}

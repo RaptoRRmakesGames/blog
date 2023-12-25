@@ -87,6 +87,16 @@ def get_user(id):
     except Exception as e:
         print(e)
         return False
+    
+def get_user_by_name(name):
+    db,c = connect()
+    c.execute("SELECT * FROM `users` WHERE username=%s", [name])
+    try:
+        item = c.fetchall()[0]
+        return item
+    except Exception as e:
+        print(e)
+        return False
 
 def get_all_blogs():
     db, c = connect()

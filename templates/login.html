@@ -1,0 +1,15 @@
+{% extends 'base_files/base.html' %}
+{%block title%}Blogs{%endblock%}
+
+{%block content%}
+<center><h2 style="padding-top: 1.5em;">Login</h2></center>
+
+<form method="POST" class="form">
+
+    <input class="text" type="text" name="username" placeholder="Username" >
+    <input class="text" type="text" name="password" placeholder="Password">
+
+    <input class="button" type="submit" name="submit" value="Login" id="">
+</form>
+
+{% endblock %}

@@ -1,10 +1,18 @@
 <header>
     <nav>
         <ul>
-            
+            {% if session["authenticated"]%}
+            <li><h3 style="color:white; text-transform: capitalize;">Hello {{session["username"]}} │</h3></li>
+            {% endif %}
             <li><a href="/" {% if page == "home" %} class="active" {% else %} class="" {%endif%}>Featured</a></li>
             <li><a href="/blogs" {% if page == "blog" %} class="active" {% else %} class="" {%endif%}>Blogs</a></li>
             <li><a href="/write" {% if page == "write" %} class="active" {% else %} class="" {%endif%}>Write</a></li>
+            {% if not session["authenticated"]%}
+            <li><a href="/login" {% if page == "login"  %} class="active" {% else %} class="" {%endif%}>Login</a></li>
+            <li><a href="/register" {% if page == "register" %} class="active" {% else %} class="" {%endif%}>Register</a></li>
+            {% else %}
+            <a href="/logout" class="">Logout</a>
+            {% endif %}
         </ul>
     </nav>
 </header>

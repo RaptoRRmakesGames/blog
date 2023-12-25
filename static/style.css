@@ -43,6 +43,10 @@ footer {
     bottom: 0;
     width: 100%;
 }
+p{
+    font-size: x-large;
+    line-height: 40px;
+}
 .blog{
     border-width: 5px;
     border-color: white;
@@ -52,6 +56,7 @@ footer {
     padding: 10px;
     text-align: center;
     min-height: 30em;
+    max-height: fit-content;
 }
 .blog-row {
     display: flex;
@@ -77,4 +82,76 @@ footer {
 .blog h2,
 .blog h4 {
     text-align: center;
+}
+
+.form{
+    display: flex;
+    border-width: 5px;
+    border-color: white;
+    border-style: solid;
+    width: 20%;
+    padding: 3px 3px 3px 3px;
+    text-align: center;
+    margin: 5px auto;
+    min-height: 17em;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+
+.blogform{
+    display: flex;
+    border-width: 5px;
+    border-color: white;
+    border-style: solid;
+    width: 60%;
+    padding: 3px 3px 3px 3px;
+    text-align: center;
+    margin: 5px auto;
+    min-height: 60em;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+form .button{
+    background-color: transparent;
+    border: 1px solid #ffffff; /* Add a border to make it visible */
+    color: #ffffff; /* Set text color */
+    padding: 10px 10px; /* Set padding for better visibility */
+    cursor: pointer; 
+    font-weight: bold;
+    border-style: none solid solid none;
+    border-radius: 5px;
+}
+form .button:hover{
+    border-style: solid;
+}
+
+form .text{
+    color: white;
+    background-color: black;
+    border: none;
+    border-style: none none solid none;
+}
+form .text:focus{
+    outline: none;
+}
+
+textarea{
+    color: white;
+    background-color: rgb(20, 20, 20);
+    border: none;
+    border-style: none solid solid none;
+    resize: none;
+}
+
+textarea:focus{
+    outline: none;
+}
+
+::placeholder{
+    color: rgb(255, 255, 255);
+    opacity: 75%;
 }
