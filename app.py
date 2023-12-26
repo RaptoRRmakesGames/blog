@@ -12,6 +12,7 @@ Session(app)
 
 @app.route("/") 
 def index():
+    
     blogs = get_all_blogs()[0:3]
     users = get_all_users()[0:3]
 
@@ -23,6 +24,7 @@ def index():
 
 @app.route("/blogs")
 def blogs():
+
     all_blogs = []
     for i,blog in enumerate(get_all_blogs()):
         all_blogs.append([blog[0], blog[1], blog[2], blog[3][0:24]+".."]) 
@@ -35,8 +37,6 @@ def see_blog(id):
 
     blog = get_blog(blognum)
     user = get_user(blog[1])
-
-    
 
     return render_template("see_blog.html", blog=blog, user=user)
 
@@ -92,6 +92,7 @@ def register():
 
 @app.route("/logout")
 def logout():
+
     session["authenticated"] = False
     session.pop("id")
     session.pop("username")
@@ -100,6 +101,7 @@ def logout():
 
 @app.route('/users/<int:id>')
 def see_user(id):
+
     user = get_user(id)
     user_posts = get_user_posts(id)
 
@@ -111,6 +113,7 @@ def see_user(id):
 
 @app.route("/deleteblog/<int:id>")
 def deleteblog(id):
+
     blog = get_blog(id)
     if blog[1] == int(session["id"]):
         delete_blog(id)
@@ -120,15 +123,16 @@ def deleteblog(id):
 def editblog(id):
     match request.method:
         case "GET":
+
             blog = get_blog(id)
             if blog[1] == int(session["id"]):
                 return render_template("edit.html", blog=blog)
             flash("Not authenticated to edit post")
             return redirect(url_for("index"))
+        
         case "POST":
 
             update_post(id, request.form["header"], request.form["textarea"])
-
             return redirect(url_for("index"))
 
 if __name__ == '__main__':
