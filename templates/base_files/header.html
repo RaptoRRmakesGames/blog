@@ -2,7 +2,7 @@
     <nav>
         <ul>
             {% if session["authenticated"]%}
-            <li><h3 style="color:white; text-transform: capitalize;">Hello {{session["username"]}} │</h3></li>
+            <li><a style="color:white; text-transform: capitalize;" href="/users/{{session['id']}}">Hello {{session["username"]}} │</a></li>
             {% endif %}
             <li><a href="/" {% if page == "home" %} class="active" {% else %} class="" {%endif%}>Featured</a></li>
             <li><a href="/blogs" {% if page == "blog" %} class="active" {% else %} class="" {%endif%}>Blogs</a></li>

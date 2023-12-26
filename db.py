@@ -11,6 +11,13 @@ def connect():
     )
     return db, db.cursor()
 
+def get_user_posts(id):
+    db,c = connect()
+
+    c.execute("SELECT * FROM `blogs` WHERE user_id=%s", [id])
+
+    return c.fetchall()
+
 def login(username, password):
 
     db,c = connect()
@@ -30,25 +37,34 @@ def login(username, password):
 
 
 def create_db():
+    db, c = connect()
 
+    # Create the 'users' table
+    c.execute("""
+        CREATE TABLE users (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            username VARCHAR(24) UNIQUE,
+            password VARCHAR(255)
+        );
+    """)
+
+    # Create the 'blogs' table
+    c.execute("""
+        CREATE TABLE blogs (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            user_id INT,
+            header VARCHAR(50),
+            content VARCHAR(3000),
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        );
+    """)
+
+    db.commit()
+
+def delete_blog(id):
     db,c = connect()
 
-    c.execute("""
-CREATE TABLE users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(24),
-    password VARCHAR(255)
-);
-
-CREATE TABLE blogs (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    header VARCHAR(50),
-    content VARCHAR(3000),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
-""", multi=True)
+    c.execute("DELETE FROM `blogs` WHERE id=%s", [id])
     db.commit()
 
 def add_blog(userid, header, content):
@@ -101,6 +117,11 @@ def get_user_by_name(name):
 def get_all_blogs():
     db, c = connect()
     c.execute("SELECT * FROM `blogs`")
+    return c.fetchall()
+
+def get_all_users():
+    db, c = connect()
+    c.execute("SELECT * FROM `users`")
     return c.fetchall()
 
 def clear_blogs():

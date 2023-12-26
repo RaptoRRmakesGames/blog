@@ -2,11 +2,26 @@
 {%block title%}See Blog{%endblock%}
 
 {%block content%}
-<center><h2 style="padding-top: 1.5em; text-transform: capitalize;">By {{user[1]}}</h2></center>
+<center><h2 style="padding-top: 1.5em; text-transform: capitalize;"><a style="color: white; text-decoration: none;" href="/users/{{user[0]}}">By {{user[1]}}</a></h2></center>
 
-<div class="blog">
+<div class="blog" style="margin-bottom: 5em;">
+    
     <h3 style="font-size: xx-large;">{{blog[2]}}</h3>
     <p>{{blog[3]}}</p>
+    
 </div>
+<center>
+{% if session["authenticated"]%}
+    {% if blog[1] == session["id"]|int%}
+
+        <form action="/deleteblog/{{blog[1]}}">
+            <input class="button" type="submit" value="Delete"> 
+        </form>
+        <form action="/editblog/{{blog[1]}}">
+            <input class="button" type="submit" value="Edit"> 
+        </form>
+    {% endif %}
+{%endif%}
+</center>
 
 {% endblock %}

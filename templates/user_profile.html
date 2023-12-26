@@ -1,15 +1,19 @@
 {% extends 'base_files/base.html' %}
-{%block title%}Blogs{%endblock%}
+{%block title%}See Blog{%endblock%}
 
 {%block content%}
-<center><h2 style="padding-top: 1.5em;">Explore Blogs</h2></center>
+{%if session["authenticated"] and session["id"] == user[0]|string%}
+<center><h2 style="padding-top: 1.5em; text-transform: capitalize;">Your Profile</h2></center>
+{% else %}
+<center><h2 style="padding-top: 1.5em; text-transform: capitalize;">{{user[1]}}'s Profile</h2></center>
+{%endif%}
 
-{% if blogs %}
+{% if user_posts %}
 
 <div style="width: 80%; margin: auto;">
     <div class="blog-selection">
         <div class="blog-row">
-        {% for blog in blogs %}
+        {% for blog in user_posts %}
             <div class="blog-small" >
                 <a href="/blogs/{{blog[0]}}" style="color: white; text-decoration: none;">
                     <h4>{{ blog[2] }}</h4>
@@ -25,7 +29,7 @@
     </div>
 </div>
 {% else %}
-<center><h1>seems like theres no blogs yet...</h1><a style="font-size: xx-large;" href="/write">Write one</a></center>
-
+<center><h1>{{user[1]}} has no blogs yet...</h1></center>
 {% endif %}
+
 {% endblock %}

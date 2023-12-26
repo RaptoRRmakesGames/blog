@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
-from db import connect, get_blog, get_user, get_all_blogs,login, get_user_by_name, add_user, add_blog
+from db import connect, get_blog, get_user, get_all_blogs,login, get_user_by_name, add_user, add_blog, get_user_posts,get_all_users, delete_blog
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_session import Session
@@ -10,12 +10,16 @@ app.config['SECRET_KEY'] = 'very secret yes'
 
 Session(app)
 
-
-
 @app.route("/") 
 def index():
-    db,c = connect()
-    return render_template("index.html", page="home", session=session)
+    blogs = get_all_blogs()[0:3]
+    users = get_all_users()[0:3]
+
+    all_blogs = []
+    for i,blog in enumerate(get_all_blogs()):
+        all_blogs.append([blog[0], blog[1], blog[2], blog[3][0:24]+".."])
+
+    return render_template("index.html", page="home", session=session, blogs=all_blogs, users=users)
 
 @app.route("/blogs")
 def blogs():
@@ -27,10 +31,12 @@ def blogs():
 @app.route("/blogs/<int:id>")
 def see_blog(id):
 
-    blognum = id
+    blognum = int(id)
 
     blog = get_blog(blognum)
     user = get_user(blog[1])
+
+    
 
     return render_template("see_blog.html", blog=blog, user=user)
 
@@ -44,11 +50,9 @@ def write():
         return redirect(url_for('login_page'))
     
     if request.method == 'POST':
-        add_blog(session["authenticated"], request.form["header"], request.form["textarea"])
+        add_blog(int(session["id"]), request.form["header"], request.form["textarea"])
         flash("Blog Posted Sucessfully!")
         return redirect(url_for("index"))
-
-
 
     return render_template("write.html", page="write", session=session)
 
@@ -61,7 +65,8 @@ def login_page():
         flash(res)
         if res == "Login Successfull":
             session['authenticated'] = True
-            session['id'] = get_user_by_name(user)[0]
+            session['id'] = str(get_user_by_name(user)[0])
+            print(session["id"])
             session["username"] = user
             return redirect(url_for('index'))
 
@@ -78,7 +83,7 @@ def register():
         flash(f"Welcome to KafaBlogs, {user}")
         if res == "Login Successfull":
             session['authenticated'] = True
-            session['id'] = get_user_by_name(user)[0]
+            session['id'] = str(get_user_by_name(user)[0])
             session["username"] = user
             return redirect(url_for('index'))
         
@@ -92,6 +97,25 @@ def logout():
     session.pop("username")
     flash("Sucessfully Logged Out!")
     return redirect(url_for('index'))
+
+@app.route('/users/<int:id>')
+def see_user(id):
+    user = get_user(id)
+    user_posts = get_user_posts(id)
+
+    all_blogs = []
+    for i,blog in enumerate(user_posts):
+        all_blogs.append([blog[0], blog[1], blog[2], blog[3][0:24]+".."])
+
+    return render_template("user_profile.html", user = user, user_posts = user_posts)
+
+@app.route("/deleteblog/<int:id>")
+def deleteblog(id):
+    id -=1
+    blog = get_blog(id)
+    if blog[1] == int(session["id"]):
+        delete_blog(id)
+    return redirect(url_for("index"))
 
 if __name__ == '__main__':
     app.run()
