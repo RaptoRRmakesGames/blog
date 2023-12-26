@@ -127,6 +127,16 @@ def get_all_users():
 def clear_blogs():
     db,c = connect()
     c.execute("TRUNCATE TABLE `blogs`;")
+    db.commit()
+def clear_users():
+    db,c = connect()
+    c.execute("TRUNCATE TABLE `users`;")
+    db.commit()
+
+def update_post(id, header, content):
+    db,c = connect()
+    c.execute("UPDATE `blogs` SET `header` = %s, `content` = %s WHERE id=%s", [header,content,id])
+    db.commit()
 
 if __name__ == '__main__':
     try:
@@ -135,7 +145,7 @@ if __name__ == '__main__':
     except Exception as e:
         print(e)
 
-    e = input("what do you want to do?\n'check') checks connection \n'add') adds a record\n'create') creates the database\n'login') pseudo logins\n'spam') Creates spam blogs\n'clear') Clears all blogs\n")
+    e = input("what do you want to do?\n'check') checks connection \n'add') adds a record\n'create') creates the database\n'login') pseudo logins\n'spam') Creates spam blogs\n'clear') Clears all blogs\n'remusers') clears all users\n")
 
     match e:
         case 'check':
@@ -168,3 +178,5 @@ if __name__ == '__main__':
 
         case 'clear':
             clear_blogs()
+        case 'remusers':
+            clear_users()

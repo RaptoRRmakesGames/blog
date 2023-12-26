@@ -1,0 +1,28 @@
+{% extends 'base_files/base.html' %}
+{%block title%}Write{%endblock%}
+
+{%block content%}
+<center><h2 style="padding-top: 1.5em;">Write A Blog</h2></center>
+
+<form class="blogform" method="POST">
+
+    <input class="text" type="text" name="header" placeholder="Header" value="{{blog[2]}}" >
+    <textarea name="textarea" id="myTextarea" cols="100" rows="40" >{{blog[3]}}</textarea>
+    <input class="button" type="submit" value="Post Blog">
+
+</form>
+
+<script>
+    document.getElementById('myTextarea').addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the default Enter behavior (new line)
+        
+        // Add a space to the textarea value
+        this.value += ' \n';
+      }
+    });
+
+  </script>
+  
+{% endblock %}
+

@@ -14,10 +14,10 @@
 {% if session["authenticated"]%}
     {% if blog[1] == session["id"]|int%}
 
-        <form action="/deleteblog/{{blog[1]}}">
+        <form action="/deleteblog/{{blog[0]}}">
             <input class="button" type="submit" value="Delete"> 
         </form>
-        <form action="/editblog/{{blog[1]}}">
+        <form action="/editblog/{{blog[0]}}">
             <input class="button" type="submit" value="Edit"> 
         </form>
     {% endif %}

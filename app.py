@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
-from db import connect, get_blog, get_user, get_all_blogs,login, get_user_by_name, add_user, add_blog, get_user_posts,get_all_users, delete_blog
+from db import connect, get_blog, get_user, get_all_blogs,login, get_user_by_name, add_user, add_blog, get_user_posts,get_all_users, delete_blog, update_post
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_session import Session
@@ -111,11 +111,25 @@ def see_user(id):
 
 @app.route("/deleteblog/<int:id>")
 def deleteblog(id):
-    id -=1
     blog = get_blog(id)
     if blog[1] == int(session["id"]):
         delete_blog(id)
     return redirect(url_for("index"))
+
+@app.route("/editblog/<int:id>", methods=["GET", "POST"])
+def editblog(id):
+    match request.method:
+        case "GET":
+            blog = get_blog(id)
+            if blog[1] == int(session["id"]):
+                return render_template("edit.html", blog=blog)
+            flash("Not authenticated to edit post")
+            return redirect(url_for("index"))
+        case "POST":
+
+            update_post(id, request.form["header"], request.form["textarea"])
+
+            return redirect(url_for("index"))
 
 if __name__ == '__main__':
     app.run()
